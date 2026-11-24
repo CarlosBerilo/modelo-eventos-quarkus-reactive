@@ -5,6 +5,16 @@ Projeto de microsserviços desenvolvido em **Java 21** e **Quarkus 3.15.1 (LTS)*
 
 ---
 
+## Imagens Docker Hub
+
+As imagens oficiais do projeto estão disponíveis no Docker Hub:
+
+* `carberilo/banking-service:1.0.0`
+* `carberilo/banking-validation:1.0.0`
+* `carberilo/banking-audit:1.0.0`
+
+---
+
 ## 1. Arquitetura e Fluxo de Eventos
 
 ```mermaid
