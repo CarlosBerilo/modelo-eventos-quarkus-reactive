@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'quarkus-reactive-banking'
+    metrics_path: '/q/metrics'
+    static_configs:
+      - targets:
+          - 'banking-service:8081'
+          - 'banking-validation:8082'
+          - 'banking-audit:8083'

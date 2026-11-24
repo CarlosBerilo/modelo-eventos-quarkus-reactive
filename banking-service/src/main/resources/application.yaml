@@ -1,0 +1,42 @@
+quarkus:
+  http:
+    port: ${APP_PORT:8081}
+  micrometer:
+    common-tags:
+      application: banking-service  
+    export:
+      prometheus:
+        enabled: true  
+        path: /q/metrics        
+    binder:
+      http-server:
+        enabled: true       
+      kafka:
+        enabled: true   
+  swagger-ui:
+    always-include: true
+    path: /swagger-ui
+  smallrye-openapi:
+    path: /openapi
+
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+mp:
+  messaging:
+    outgoing:
+      branch-events-pending-out:
+        connector: smallrye-kafka
+        topic: banking-branch-pending 
+        value:
+          serializer: io.quarkus.kafka.client.serialization.ObjectMapperSerializer
+      branch-events-updated-out:
+        connector: smallrye-kafka
+        topic: banking-branch-updated
+        value:
+          serializer: io.quarkus.kafka.client.serialization.ObjectMapperSerializer
+          
+
+

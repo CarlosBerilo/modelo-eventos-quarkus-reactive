@@ -1,0 +1,47 @@
+quarkus:
+  http:
+    port: ${APP_PORT:8082}
+  micrometer:
+    common-tags:
+      application: banking-validation
+    export:
+      prometheus:
+        enabled: true  
+        path: /q/metrics          
+    binder:
+      http-server:
+        enabled: true       
+      kafka:
+        enabled: true       
+      mutiny:
+        enabled: true       
+      vertx:
+        enabled: true        
+
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+mp:
+  messaging:
+
+    outgoing:
+      branch-events-created-out:
+        connector: smallrye-kafka
+        topic: banking-branch-created
+        value:
+          serializer: io.quarkus.kafka.client.serialization.ObjectMapperSerializer 
+
+    ingoing:
+      branch-events-in:
+        connector: smallrye-kafka
+        topic: banking-branch-pending, banking-branch-updated
+        value:
+          deserializer: io.quarkus.kafka.client.serialization.ObjectMapperDeserializer
+          quarkus:
+            kafka:
+              deserializer:
+                branch-events-in:
+                  type: com.cbs.model.bs.domain.Branch
+

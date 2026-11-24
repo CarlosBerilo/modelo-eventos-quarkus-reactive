@@ -1,0 +1,41 @@
+# ==========================================
+# Build Maven / Quarkus
+# ==========================================
+**/target/
+**/build/
+*.jar
+*.war
+*.ear
+
+# ==========================================
+# Variáveis de Ambiente (Mantém os templates)
+# ==========================================
+# Ignora os arquivos reais usados pelo Docker Compose
+**/.env/.env
+.env
+
+# Garante que os arquivos de exemplo fiquem visíveis no GitHub
+!banking-service.env
+!banking-validation.env
+!banking-audit.env
+
+# ==========================================
+# IDEs e Editores
+# ==========================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+
+# ==========================================
+# Sistema Operacional e Logs
+# ==========================================
+.DS_Store
+Thumbs.db
+*.log
+

@@ -1,0 +1,15 @@
+quarkus:
+  kafka:
+    devservices:
+      enabled: false # Impede que o Quarkus tente subir o Testcontainers/Docker no teste
+
+mp:
+  messaging:
+    outgoing:
+      # Substitui o conector real do Kafka pelo driver em memória nos testes
+      branch-created-out:
+        connector: smallrye-in-memory
+    incoming:
+      # Garante que o canal de entrada do seu Resource/Service também use memória e ignore deserializers pesados
+      branch-activated-in:
+        connector: smallrye-in-memory

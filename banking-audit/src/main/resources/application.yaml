@@ -1,0 +1,64 @@
+quarkus:
+  http:
+    host: 0.0.0.0
+    port: ${APP_PORT:8083}
+  micrometer:
+    common-tags:
+      application: banking-audit 
+    export:
+      prometheus:
+        enabled: true
+        path: /q/metrics
+    binder:
+      http-server:
+        enabled: true
+      kafka:
+        enabled: true
+  kafka:
+    deserializer:
+      banking-branch-created:
+        type: com.cbs.model.bs.domain.Branch
+      banking-branch-pending:
+        type: com.cbs.model.bs.domain.Branch
+      banking-branch-updated:
+        type: com.cbs.model.bs.domain.Branch
+
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+
+mp:
+  messaging:
+    # envia para o kafka
+    outgoing:
+      branch-events-audited-out:
+        connector: smallrye-kafka
+        topic: banking-branch-audited
+        value:
+          serializer: io.quarkus.kafka.client.serialization.ObjectMapperSerializer
+
+    # recebe do kafka (corrigido de 'ingoing' para 'incoming')
+    incoming:
+      banking-branch-created:
+        connector: smallrye-kafka
+        topic: banking-branch-created
+        #group.id: banking-audit-group
+        auto.offset.reset: earliest
+        value:
+          deserializer: com.cbs.model.bs.domain.BranchDeserializer
+
+      banking-branch-pending:
+        connector: smallrye-kafka
+        topic: banking-branch-pending
+        #group.id: banking-audit-group
+        auto.offset.reset: earliest
+        value:
+          deserializer: com.cbs.model.bs.domain.BranchDeserializer
+
+      banking-branch-updated:
+        connector: smallrye-kafka
+        topic: banking-branch-updated
+        #group.id: banking-audit-group
+        auto.offset.reset: earliest
+        value:
+          deserializer: com.cbs.model.bs.domain.BranchDeserializer
